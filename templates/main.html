@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Deep learning Image classifier</title>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename = 'main.css')}}">
+	<script src="https://kit.fontawesome.com/6c1da93a13.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+	<nav class="menu-bar">
+		<h2 class="main-title">Deep Learning Image Classifier</h2><span class="select-model"> Model <i class="fa-solid fa-chevron-down"></i></span>
+	</nav>
+
+
+	<div class="main-container">
+		<h3>Choose an image and a model for classification </h3>
+			<div class="image-container">
+			</div>
+		<form action = "/" method = "POST">
+			<div class="input-container">
+				<input class = "btn-style" type="file" id = "user-input-id" name="user-input" onchange="showFile(this)">
+
+				<input class="btn-style" type="submit" name="submit-btn" value = "Continue">
+
+			</div>
+		</form>
+	</div>
+<script src="{{url_for('static',filename = 'main.js')}}"></script>
+</body>
+</html>
+
+<!--- 
+-um projeto usando flask, selecione entre dois possíveis modelos de classificação de imagens. (simple CNN ou VGG), o usuario faz o upload da imagem, o servidor checka o formato, responde, a imagem aparece na tela. O botao de classificação torna-se visivel. Ao classificar, a resposta é devolvida para o usuário.
+
+
+
+--->
