@@ -70,11 +70,17 @@ body{
 	width: 25rem;
 	height: 20rem;
 	overflow: hidden;
-
-
 background: rgba(0, 0, 0, 0.2);
 border: 1px solid var(--primaryColor);
 }
+
+
+.img{
+	width: 25rem;
+	height: 20rem;
+}
+
+
 
 
 /*BUTTONS */
@@ -84,8 +90,28 @@ border: 1px solid var(--primaryColor);
 	border: 1px solid var(--primaryColor);
 	cursor: pointer;
 	margin: .5rem;
-	width: 7rem;
-	height: 2rem;
+	width: 9rem;
+	height: 2.7rem;
 
 	color: var(--primaryColor);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+/*in my case the label is now the button*/
+.upload-file{
+	background: var(--mainBlack);
+	border: 1px solid var(--primaryColor);
+	cursor: pointer;
+	margin: .5rem;
+	width: 8rem;
+	height: 2rem;
+	padding-left: 1rem;
+padding-top: .6rem;
+
+
+	color: var(--primaryColor);
+
 }

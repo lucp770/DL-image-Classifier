@@ -13,19 +13,21 @@
 		<h2 class="main-title">Deep Learning Image Classifier</h2><span class="select-model"> Model <i class="fa-solid fa-chevron-down"></i></span>
 	</nav>
 
-
 	<div class="main-container">
 		<h3>Choose an image and a model for classification </h3>
 			<div class="image-container">
 			</div>
-		<form action = "/" method = "POST">
+		<!-- <form action = "/" method = "POST"> -->
 			<div class="input-container">
+				<label for="user-input-id" class ="upload-file">Upload image </label>
 				<input class = "btn-style" type="file" id = "user-input-id" name="user-input" onchange="showFile(this)">
 
-				<input class="btn-style" type="submit" name="submit-btn" value = "Continue">
-
+				<!-- <input class="btn-style" type="submit" name="submit-btn" value = "Continue" onclick="postData"> -->
+				<button class="btn-style continue-button">Continue</button>
 			</div>
-		</form>
+		<!-- </form> -->
+
+		<button class="teste">Teste</button>
 	</div>
 <script src="{{url_for('static',filename = 'main.js')}}"></script>
 </body>
@@ -33,7 +35,4 @@
 
 <!--- 
 -um projeto usando flask, selecione entre dois possíveis modelos de classificação de imagens. (simple CNN ou VGG), o usuario faz o upload da imagem, o servidor checka o formato, responde, a imagem aparece na tela. O botao de classificação torna-se visivel. Ao classificar, a resposta é devolvida para o usuário.
-
-
-
 --->

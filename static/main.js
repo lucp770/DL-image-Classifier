@@ -1,27 +1,52 @@
 const imgContainer = document.querySelector('.image-container');
+const contButton = document.querySelector('.continue-button');
+
+let file = undefined;
+let errorMessage;
+let Model = 'VGG';
+
 
 function showFile(input){
-	let file = input.files[0];
+	file = input.files[0];
 	imgUrl = URL.createObjectURL(file);
-	console.log('url', imgUrl);
-	console.log(file);
-	imgContainer.innerHTML = '<img src = "'+imgUrl+ '"width="450" height="450" alt = "user-input-image"/>';
+	imgContainer.innerHTML = '<img class ="img" src = "'+imgUrl+ '" alt = "user-input-image"/>';
 }
 
-async function getUserFile(){
-	// more at https://fjolt.com/article/javascript-new-file-system-api
-
-    try {
-        directory = await window.showDirectoryPicker({
-            startIn: 'desktop'
-        });
-
-        for await (const entry of directory.values()) {
-            let newEl = document.createElement('div');
-            newEl.innerHTML = `<strong>${entry.name}</strong> - ${entry.kind}`;
-            document.getElementById('folder-info').append(newEl);
-        }
-    } catch(e) {
-        console.log(e);
+function userCanProceed(){
+    if (!Model){
+        errorMessage = 'Please select a Classification Model';
+        return false;
     }
 
+    if (file==undefined){
+        errorMessage =  'Please select an image from your computer. '
+        return false;
+    }
+    return true;
+}
+
+function postData(){
+
+    let userAuth = userCanProceed();
+
+    if (userAuth){
+        // get all the image data 
+        console.log(file);
+
+        // execute fetch to the server, passing header and body.
+        let options = {method: "POST",
+        body: file,
+        headers: {'content-type':'image/png'}
+        }
+
+        // change the
+        console.log('post sucessfull')
+    }
+    else{
+        console.log('ERROR');
+    }
+}
+
+contButton.addEventListener('click',()=>{
+    postData();
+})
