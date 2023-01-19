@@ -1,11 +1,14 @@
 from flask import Flask, render_template, request
 
+from matplotlib import pyplot as plt
 
 # insert the src directory in the list of folders where the interpreter look for modules.
 import os
 current_dir = os.getcwd()
 import sys
 sys.path.append(current_dir+'/src')
+
+import imageio as iio
 
 
 ################# Application #########################
@@ -16,13 +19,19 @@ app = Flask(__name__)
 def homepage():
 	return render_template("main.html")
 
-
 @app.route("/", methods = ['POST'])
 def receive_image():
-		image = request.form.get('user-input')
-		# manipulate and transform the image in an array.
-		print(image)
-		return "<h1>Done !!</h1>"	
+	# manipulate and transform the image in an array.
+
+	# get the data stream from the post request
+	image_data = request.get_data()
+
+	# convert the data stream to an array
+	image = iio.imread(data1)
+
+	# now insert here the code for image classification
+	
+	return "<h1>Done !!</h1>"	
 
 if __name__ =="__main__":
 	app.run(debug=True)

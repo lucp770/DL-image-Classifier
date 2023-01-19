@@ -39,6 +39,11 @@ function postData(){
         headers: {'content-type':'image/png'}
         }
 
+        let r = fetch('/',options);
+        console.log(r);
+
+        r.then(res=>console.log(res));
+
         // change the
         console.log('post sucessfull')
     }
@@ -47,6 +52,7 @@ function postData(){
     }
 }
 
-contButton.addEventListener('click',()=>{
+contButton.addEventListener('click',(e)=>{
+    e.preventDefault();
     postData();
 })
