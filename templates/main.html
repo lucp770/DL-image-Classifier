@@ -10,25 +10,30 @@
 <body>
 
 	<nav class="menu-bar">
-		<h2 class="main-title">Deep Learning Image Classifier</h2><span class="select-model"> Model <i class="fa-solid fa-chevron-down"></i></span>
+		<h2 class="main-title">Deep Learning Image Classifier</h2><span class="select-model"> <div class ="marker"> </div>Model <i class="fa-solid fa-chevron-down"></i></span>
 	</nav>
 
 	<div class="main-container">
 		<h3>Choose an image and a model for classification </h3>
 			<div class="image-container">
 			</div>
+
+			<span class="model-information"></span>
 		<form action = "/">
 			<div class="input-container">
 				<label for="user-input-id" class ="upload-file">Upload image </label>
 				<input class = "btn-style" type="file" id = "user-input-id" name="user-input" onchange="showFile(this)">
-
-				<!-- <input class="btn-style" type="submit" name="submit-btn" value = "Continue" onclick="postData"> -->
 				<button class="btn-style continue-button">Continue</button>
 			</div>
 		</form>
-
-		<button class="teste">Teste</button>
 	</div>
+
+	<div class="model-selection hidden">
+		{% for model in models %}
+			<section class="model"> {{model}}</section>
+		{% endfor %}
+	</div>
+
 <script src="{{url_for('static',filename = 'main.js')}}"></script>
 </body>
 </html>

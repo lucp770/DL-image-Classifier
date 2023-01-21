@@ -80,8 +80,11 @@ border: 1px solid var(--primaryColor);
 	height: 20rem;
 }
 
-
-
+.model-information{
+	position: absolute;
+	color: var(--primaryColor);
+	margin-top:1.4rem;
+}
 
 /*BUTTONS */
 
@@ -94,6 +97,13 @@ border: 1px solid var(--primaryColor);
 	height: 2.7rem;
 
 	color: var(--primaryColor);
+	transition: .2s;
+}
+
+.btn-style:hover{
+	background: var(--primaryColor);
+	color: var(--mainDarkGray);
+
 }
 
 input[type="file"] {
@@ -109,9 +119,84 @@ input[type="file"] {
 	width: 8rem;
 	height: 2rem;
 	padding-left: 1rem;
-padding-top: .6rem;
-
+	padding-top: .6rem;
 
 	color: var(--primaryColor);
+	transition: .2s;
 
+}
+
+.upload-file:hover{
+	background: var(--primaryColor);
+	color: var(--mainDarkGray);
+}
+
+/*MENU FOR THE SELECTION OF MODELS*/
+
+.select-model{
+	cursor: pointer;
+}
+
+.model-selection{
+	position: absolute;
+	top: 6rem;
+	right: 3rem;
+	background: var(--mainBlack);
+	color: var(--primaryColor);
+	border-radius: .8rem;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	flex-grow: 1;
+	padding: 0;
+	
+}
+
+.hidden{
+	;
+	visibility: hidden;
+}
+
+.model{
+	padding: .8rem .25rem;
+	font-size: 1.5rem;
+	margin:0;
+	width: 98%;
+	border-radius: 1rem;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	transition: .2s;
+
+}
+
+.model:hover{
+	background: var(--primaryColor);
+	color: var(--mainDarkGray);
+	cursor: pointer;
+}
+
+.selected{
+	background: var(--primaryColor);
+	color: var(--mainDarkGray);
+}
+
+.marker{
+	position: absolute;
+	width: 8rem;
+	visibility: hidden;
+	top: 4rem;
+	border-radius: 1rem;
+
+	transition: .2s;
+}
+
+.select-model:hover .marker{;
+	visibility: visible;
+	height: 4px;
+	background: var(--primaryColor);
 }
