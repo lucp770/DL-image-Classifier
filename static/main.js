@@ -39,27 +39,33 @@ function postData(){
     let userAuth = userCanProceed();
 
     if (userAuth){
-        // get all the image data 
-        console.log(file);
 
         // execute fetch to the server, passing header and body.
         let options = {method: "POST",
-        body: {file:file, model: Model},
-        headers: {'content-type':'multipart/form-data'}
+        body: file,
+        headers: {'content-type':'img/png'}
         }
+        // {'content-type':'multipart/form-data'}
 
-        delete options.headers['Content-Type'];
+        // delete options.headers['Content-Type'];
 
-        let r = fetch('/',options);
-        console.log(r);
+        fetch('/',options);
 
-        r.then(res=>console.log(res));
+        .then(res=>console.log(res))
 
-        // change the
-        console.log('post sucessfull')
+        .then(res =>{
+                options ={method: "POST",
+                body: Model
+                 }
+                fetch('/model',options)
+            })
+        .then(response => console.log(response));
+
+        // ạfter this promisse make a new request to the server to process the image.
     }
     else{
-        console.log('ERROR');
+        modelInfo.innerText = "Please select a model"
+        modelInfo.classList.add('Error');
     }
 }
 
@@ -97,6 +103,10 @@ models.forEach(model=>{
         console.log('variable Model value: ', Model);
 
         modelInfo.innerText = 'The model selected is ' + Model;
+        let listaClasses = modelInfo.classList;
+        if(listaClasses.contains('Error')){
+            modelInfo.classList.remove('Error');
+        }
 
        
         // remove the selected class from others and add only on the clicked button.

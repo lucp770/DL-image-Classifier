@@ -17,6 +17,16 @@ app = Flask(__name__)
 
 
 models = ['AlexNet','VGG','ResNet','SqueezeNet','DenseNet','Inception v3']
+currentModel = 'None'
+image =[]
+
+def setImage(imagem):
+	image = imagem
+	print(image)
+
+def setModel(model):
+	currentModel = model;
+
 
 @app.route("/")
 def homepage():
@@ -25,35 +35,25 @@ def homepage():
 @app.route("/", methods = ['POST'])
 def receive_image():
 	# manipulate and transform the image in an array.
-
 	# get the data stream from the post request
 	image_data = request.get_data()
-	# print(image_data);
-	for i in request.files:
-		print(i)
+
+	image = iio.imread(image_data)
+	# print(image)
+	setImage(image);
 	
-	# for i in dir(request):
-	# 	print(i)
+	return "image received"
 
-	# print('\n \n propriedades do request getdata')
-	# for j in dir(image_data):
-	# 	print(j)
-
-	# convert the data stream to an array
-	# image = iio.imread(data1)
-
-	# now insert here the code for image classification
+@app.route("/model", methods = ['POST'])
+def processModel():
+	data = request.get_data()
 	
-	return "<h1>Done !!</h1>"	
+	return "model received"
 
 if __name__ =="__main__":
 	app.run(debug=True)
 
-# -futuristic syle with nice animations (background dargrey, text: light blue)
-# 		-put the arrow dow in the menu v
-# 		-put the menu going down
 
-# -manipulate the image in the background so it transform in an array. V
 
 # -no botao submit, incluir uma janela de carregamento no estilo futurista
 # -elaborar modelo de ML baseado em CNN para classificação da imagem colocada pelo usuario

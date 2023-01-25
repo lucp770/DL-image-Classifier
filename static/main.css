@@ -200,3 +200,7 @@ input[type="file"] {
 	height: 4px;
 	background: var(--primaryColor);
 }
+
+.Error{
+	color: red;
+}
