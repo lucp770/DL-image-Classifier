@@ -16,15 +16,14 @@ import imageio as iio
 app = Flask(__name__)
 
 
-models = ['AlexNet','VGG','ResNet','SqueezeNet','DenseNet','Inception v3']
-currentModel = 'None'
-image =[]
+models = ['CNN','AlexNet','VGG','ResNet','SqueezeNet','DenseNet','Inception v3']
 
 def setImage(imagem):
+	global image
 	image = imagem
-	print(image)
 
 def setModel(model):
+	global currentModel
 	currentModel = model;
 
 
@@ -38,17 +37,33 @@ def receive_image():
 	# get the data stream from the post request
 	image_data = request.get_data()
 
-	image = iio.imread(image_data)
+	image_data= iio.imread(image_data)
 	# print(image)
-	setImage(image);
+	setImage(image_data);
 	
 	return "image received"
+
 
 @app.route("/model", methods = ['POST'])
 def processModel():
 	data = request.get_data()
-	
+	print('data', str(data))
+	setModel(data)
 	return "model received"
+
+
+@app.route("/classification", methods = ['POST'])
+def classification():
+	model_of_choice = currentModel
+	image_to_classify = image
+
+	# insert here the classification algorithm
+	plt.imshow(image_to_classify)
+	plt.show()
+
+	return 'classification done'
+
+
 
 if __name__ =="__main__":
 	app.run(debug=True)
@@ -57,6 +72,5 @@ if __name__ =="__main__":
 
 # -no botao submit, incluir uma janela de carregamento no estilo futurista
 # -elaborar modelo de ML baseado em CNN para classificação da imagem colocada pelo usuario
-# -implementar a classificação e um retorno para o usuario no método 
+# -implementar a classificação e um retorno para o usuario no método
 # -usar modelos pre treinados para um resultado melhor e compara-los.
-# -

@@ -34,32 +34,67 @@ function userCanProceed(){
     return true;
 }
 
+async function sendDataToServer(){
+    // the firts post to the server
+
+    let options = {method: "POST",
+        body: file,
+        headers: {'content-type':'img/png'}
+        }
+    let responseImage = await fetch('/',options);
+    console.log('image post: ', responseImage);
+
+    options ={method: "POST",
+                body: Model
+                 }
+    let responseModel  = await fetch('/model',options);
+
+    console.log('model post: ', responseModel);
+
+    options ={method: "POST"}
+    let finalResponse = await fetch('/classification',options);
+    console.log('final response: ', finalResponse);
+
+}
+
 function postData(){
 
     let userAuth = userCanProceed();
 
     if (userAuth){
+        
+        sendDataToServer();
 
-        // execute fetch to the server, passing header and body.
-        let options = {method: "POST",
-        body: file,
-        headers: {'content-type':'img/png'}
-        }
-        // {'content-type':'multipart/form-data'}
+        // // execute fetch to the server, passing header and body.
+        // let options = {method: "POST",
+        // body: file,
+        // headers: {'content-type':'img/png'}
+        // }
+        // // {'content-type':'multipart/form-data'}
 
-        // delete options.headers['Content-Type'];
+        // // delete options.headers['Content-Type'];
 
-        fetch('/',options);
+        // fetch('/',options);
 
-        .then(res=>console.log(res))
+        // .then(res=>console.log(res))
 
-        .then(res =>{
-                options ={method: "POST",
-                body: Model
-                 }
-                fetch('/model',options)
-            })
-        .then(response => console.log(response));
+        // .then(res =>{
+        //         options ={method: "POST",
+        //         body: Model
+        //          }
+        //         fetch('/model',options)
+        //     })
+        // .then(response => {
+
+        //     console.log(response);
+        //     // execute a new pos to the server.
+
+        //     fetch('/classification')
+
+        // })
+        // .then(res => {
+        //     console.log(res);
+        // })
 
         // ạfter this promisse make a new request to the server to process the image.
     }
