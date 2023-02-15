@@ -34,19 +34,23 @@ function userCanProceed(){
     return true;
 }
 
+
 async function sendDataToServer(){
     // the firts post to the server
 
     let options = {method: "POST",
         body: file,
         headers: {'content-type':'img/png'}
-        }
+        };
+
     let responseImage = await fetch('/',options);
-    console.log('image post: ', responseImage);
+
 
     options ={method: "POST",
-                body: Model
+                body: JSON.stringify({'selected model': Model}),
+                headers: {'content-type':'application/json'
                  }
+                }
     let responseModel  = await fetch('/model',options);
 
     console.log('model post: ', responseModel);
@@ -54,7 +58,6 @@ async function sendDataToServer(){
     options ={method: "POST"}
     let finalResponse = await fetch('/classification',options);
     console.log('final response: ', finalResponse);
-
 }
 
 function postData(){
@@ -64,39 +67,6 @@ function postData(){
     if (userAuth){
         
         sendDataToServer();
-
-        // // execute fetch to the server, passing header and body.
-        // let options = {method: "POST",
-        // body: file,
-        // headers: {'content-type':'img/png'}
-        // }
-        // // {'content-type':'multipart/form-data'}
-
-        // // delete options.headers['Content-Type'];
-
-        // fetch('/',options);
-
-        // .then(res=>console.log(res))
-
-        // .then(res =>{
-        //         options ={method: "POST",
-        //         body: Model
-        //          }
-        //         fetch('/model',options)
-        //     })
-        // .then(response => {
-
-        //     console.log(response);
-        //     // execute a new pos to the server.
-
-        //     fetch('/classification')
-
-        // })
-        // .then(res => {
-        //     console.log(res);
-        // })
-
-        // ạfter this promisse make a new request to the server to process the image.
     }
     else{
         modelInfo.innerText = "Please select a model"
@@ -104,19 +74,16 @@ function postData(){
     }
 }
 
-
 function sendData(data){
     const formData = new FormData();
 
     for(const name in data){
         formData.append(name, data[name]);
     }
-
     let options = {
     method: "POST",
     body: formData
     }
-
     let r = fetch('/',options);
     r.then(res=>console.log(res));
 
@@ -129,6 +96,7 @@ contButton.addEventListener('click',(e)=>{
     postData();
 
 })
+
 
 models.forEach(model=>{
     model.addEventListener('click', ()=>{
@@ -163,7 +131,7 @@ selectModelBtn.addEventListener('click', ()=>{
     let classes = slideMenu.classList;
     // console.log(classes.contains('visible'));
     if(classes.contains('hidden')){
-        console.log('showMenu');
+    
         classes.remove('hidden');
 
         // change the logo to up arrow.
@@ -171,7 +139,7 @@ selectModelBtn.addEventListener('click', ()=>{
         arrowLogo.classList.add('fa-chevron-up')
     }
     else{
-        console.log('hide Menu')
+
 
         classes.add('hidden');
 

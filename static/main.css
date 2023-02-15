@@ -157,8 +157,7 @@ input[type="file"] {
 	align-items: center;
 	justify-content: center;
 	flex-grow: 1;
-	padding: 0;
-	
+	padding: 0;	
 }
 
 .hidden{
@@ -170,7 +169,7 @@ input[type="file"] {
 	padding: .8rem .25rem;
 	font-size: 1.5rem;
 	margin:0;
-	width: 98%;
+	width: 15rem;
 	border-radius: 1rem;
 
 	display: flex;
@@ -211,3 +210,19 @@ input[type="file"] {
 .Error{
 	color: red;
 }
+
+a, a:visited {
+	text-decoration: none;
+	color: var(--primaryColor);
+}
+
+a:hover{
+	color:var(--mainBlack);
+}
+/*icon and url*/
+.info-url{
+	position: absolute;
+	padding-left: 12.5rem;
+	color: var(--primaryColor);
+}
+

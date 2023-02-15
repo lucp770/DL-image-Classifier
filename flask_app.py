@@ -7,8 +7,12 @@ import os
 current_dir = os.getcwd()
 import sys
 sys.path.append(current_dir+'/src')
+import json 
+
+import inception
 
 import imageio as iio
+from PIL import Image
 
 
 ################# Application #########################
@@ -16,7 +20,10 @@ import imageio as iio
 app = Flask(__name__)
 
 
-models = ['CNN','AlexNet','VGG','ResNet','SqueezeNet','DenseNet','Inception v3']
+models = [('CNN','#'),('AlexNet','https://pytorch.org/hub/pytorch_vision_alexnet/'),
+('VGG','https://pytorch.org/hub/pytorch_vision_vgg/'),('ResNet','https://pytorch.org/hub/pytorch_vision_resnet'),
+('SqueezeNet','https://pytorch.org/hub/pytorch_vision_squeezenet/') ,('DenseNet','https://pytorch.org/hub/pytorch_vision_densenet/'),
+('Inception v3','https://pytorch.org/hub/pytorch_vision_inception_v3/')]
 
 def setImage(imagem):
 	global image
@@ -25,7 +32,6 @@ def setImage(imagem):
 def setModel(model):
 	global currentModel
 	currentModel = model;
-
 
 @app.route("/")
 def homepage():
@@ -43,20 +49,23 @@ def receive_image():
 	
 	return "image received"
 
-
 @app.route("/model", methods = ['POST'])
 def processModel():
-	data = request.get_data()
-	print('data', str(data))
+	data = request.get_json()
+	data = data['selected model'];
+	# print('\n parsed data : ', json.loads(data))
 	setModel(data)
 	return "model received"
-
 
 @app.route("/classification", methods = ['POST'])
 def classification():
 	model_of_choice = currentModel
 	image_to_classify = image
+	print('\n \n modelo:',model_of_choice)
+	# if model_of_choice =='Inception v3':
+	# 	inception.Apply_model(image_to_classify);
 
+	# else: print('nenhum modelo correspondente');
 	# insert here the classification algorithm
 	plt.imshow(image_to_classify)
 	plt.show()
@@ -64,13 +73,12 @@ def classification():
 	return 'classification done'
 
 
-
 if __name__ =="__main__":
 	app.run(debug=True)
 
 
 
-# -no botao submit, incluir uma janela de carregamento no estilo futurista
-# -elaborar modelo de ML baseado em CNN para classificação da imagem colocada pelo usuario
+# 
+
 # -implementar a classificação e um retorno para o usuario no método
 # -usar modelos pre treinados para um resultado melhor e compara-los.

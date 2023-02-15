@@ -29,8 +29,8 @@
 	</div>
 
 	<div class="model-selection hidden">
-		{% for model in models %}
-			<section class="model"> {{model}}</section>
+		{% for model,url in models %}
+			<section class="model"> {{model}}  <span class="info-url"> <a href= {{url}} ><i class="fa-regular fa-circle-question"></i></a></span></section>
 		{% endfor %}
 	</div>
 
