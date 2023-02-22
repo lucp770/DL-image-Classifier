@@ -220,6 +220,13 @@ a, a:visited {
 a:hover{
 	color:var(--mainBlack);
 }
+
+.other-link, .other-link:visited{
+	color: dimgray;
+}
+.other-link:hover{
+	filter: brightness(1.7);
+}
 /*icon and url*/
 .info-url{
 	position: absolute;
@@ -252,4 +259,70 @@ a:hover{
 .loader{
 	position: fixed;
 	top: 2rem;
+}
+
+
+/*footer*/
+
+footer{
+	position: absolute;
+	width: 100%;
+	bottom: -15rem;
+
+	display: flex;
+	align-items: column;
+	justify-content: space-between;
+	align-items: center;
+
+	background: var(--mainBlack);
+	color: dimgray;
+	padding: 1rem 8rem;
+	padding-bottom: 5rem;
+	height: 10rem;
+}
+
+li:hover{
+	filter: brightness(1.7);
+	cursor: pointer;
+}
+
+.non_link:hover{
+	cursor: inherit;
+}
+li+li{
+	margin-top: .5rem;
+}
+
+/*informative banner*/
+
+.hidden{
+	visibility: hidden;
+}
+
+.visible{
+	visibility: visible;
+}
+
+.info-banner{
+	position: absolute;
+	bottom: 10rem;
+	left: 2rem;
+	width: 20%;
+	background: var(--mainBlack);
+	color: dimgray;
+
+	padding: 1rem;
+
+	transition: visibility 2s;
+
+}
+
+.code-icon{
+	width: 1.5rem;
+}
+
+.icon-container{
+	position: relative;
+	left: 6rem;
+	bottom: 1.5rem;
 }

@@ -175,3 +175,17 @@ selectModelBtn.addEventListener('click', ()=>{
     }
 })
 
+const infoShow = document.querySelector('.what-is-it');
+const infoBanner = document.querySelector('.info-banner');
+let infoClassList = infoBanner.classList;
+
+infoShow.addEventListener('mouseenter', ()=>{
+    infoClassList.remove('hidden');
+    infoClassList.add('visible');
+
+})
+
+infoShow.addEventListener('mouseleave', ()=>{
+    infoClassList.remove('visible');
+    infoClassList.add('hidden');
+})
