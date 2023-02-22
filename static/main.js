@@ -21,6 +21,26 @@ function showFile(input){
 	imgContainer.innerHTML = '<img class ="img" src = "'+imgUrl+ '" alt = "user-input-image"/>';
 }
 
+function hideBackdrop(){
+    const backdrop = document.querySelector('.backdrop');
+    const loader = document.querySelector('.loader');
+    backdrop.classList.add('off');
+    backdrop.classList.remove('on');
+
+    loader.classList.add('off');
+    loader.classList.remove('on');
+}
+
+function showBackdrop() {
+    const backdrop = document.querySelector('.backdrop');
+    const loader = document.querySelector('.loader');
+    backdrop.classList.add('on');
+    loader.classList.add('on');
+
+    backdrop.classList.remove('off');
+    loader.classList.remove('off');
+}
+
 function userCanProceed(){
     if (!Model){
         errorMessage = 'Please select a Classification Model';
@@ -43,8 +63,10 @@ async function sendDataToServer(){
         headers: {'content-type':'img/png'}
         };
 
-    let responseImage = await fetch('/',options);
+    // show backdrop
+        showBackdrop();
 
+    let responseImage = await fetch('/',options);
 
     options ={method: "POST",
                 body: JSON.stringify({'selected model': Model}),
@@ -57,6 +79,10 @@ async function sendDataToServer(){
 
     options ={method: "POST"}
     let finalResponse = await fetch('/classification',options);
+
+    // hide backdrop
+    hideBackdrop();
+
     console.log('final response: ', finalResponse);
 }
 
@@ -148,3 +174,4 @@ selectModelBtn.addEventListener('click', ()=>{
         arrowLogo.classList.add('fa-chevron-down')
     }
 })
+

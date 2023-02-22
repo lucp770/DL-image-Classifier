@@ -6,7 +6,30 @@
 	<title>Deep learning Image classifier</title>
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename = 'main.css')}}">
 	<script src="https://kit.fontawesome.com/6c1da93a13.js" crossorigin="anonymous"></script>
+
+	<!-- install tailwind -->
+	<link
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+  rel="stylesheet" />
+	<link
+	  rel="stylesheet"
+	  href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+	<script src="https://cdn.tailwindcss.com/3.2.4"></script>
+	<script>
+	  tailwind.config = {
+	    darkMode: "class",
+	    theme: {
+	      fontFamily: {
+	        sans: ["Roboto", "sans-serif"],
+	        body: ["Roboto", "sans-serif"],
+	        mono: ["ui-monospace", "monospace"],
+	      },
+	    },
+	  };
+	</script>
+
 </head>
+
 <body>
 
 	<nav class="menu-bar">
@@ -34,7 +57,17 @@
 		{% endfor %}
 	</div>
 
+	<div class="backdrop off flex-initial justify-center items-center">
+	</div>
+	<div class=" off loader flex items-center justify-center">
+		  	<div
+		    class=" m-2 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] text-cyan-300"
+		    role="status">
+		   </div><span class="text-cyan-300"> ... Processing</span>
+	</div>
+
 <script src="{{url_for('static',filename = 'main.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
 </body>
 </html>
 

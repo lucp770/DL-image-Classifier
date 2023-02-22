@@ -45,6 +45,8 @@ def receive_image():
 
 	image_data= iio.imread(image_data)
 	# print(image)
+	# image_data = Image.open(image_data)
+	print(image_data)
 	setImage(image_data);
 	
 	return "image received"
@@ -62,8 +64,8 @@ def classification():
 	model_of_choice = currentModel
 	image_to_classify = image
 	print('\n \n modelo:',model_of_choice)
-	# if model_of_choice =='Inception v3':
-	# 	inception.Apply_model(image_to_classify);
+	if model_of_choice =='Inception v3':
+		inception.Apply_model(image_to_classify);
 
 	# else: print('nenhum modelo correspondente');
 	# insert here the classification algorithm
