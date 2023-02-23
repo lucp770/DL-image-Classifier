@@ -14,7 +14,6 @@ let file = undefined;
 let errorMessage;
 let Model = '';
 
-
 function showFile(input){
 	file = input.files[0];
 	imgUrl = URL.createObjectURL(file);
@@ -56,8 +55,7 @@ function userCanProceed(){
 
 
 async function sendDataToServer(){
-    // the firts post to the server
-
+    // the firts post to the serve
     let options = {method: "POST",
         body: file,
         headers: {'content-type':'img/png'}
@@ -152,27 +150,28 @@ models.forEach(model=>{
 function showOrHideMenu(){
     let classes = slideMenu.classList;
     // console.log(classes.contains('visible'));
-    if(classes.contains('hidden')){
+    if(classes.contains('menu-hidden')){
     
-        classes.remove('hidden');
+        classes.remove('menu-hidden');
 
         // change the logo to up arrow.
         arrowLogo.classList.remove('fa-chevron-down');
         arrowLogo.classList.add('fa-chevron-up')
+
     }
-    else{
-
-
-        classes.add('hidden');
-
+    else if(!classes.contains('menu-hidden')){
+        console.log('event invoqued');
+        classes.add('menu-hidden');
         // change the logo to up down.
         arrowLogo.classList.remove('fa-chevron-up');
         arrowLogo.classList.add('fa-chevron-down')
     }
-
 }
 
-selectModelBtn.addEventListener('click', showOrHideMenu);
+selectModelBtn.addEventListener('click',  e=>{
+    e.stopPropagation();
+    showOrHideMenu();
+});
 
 const infoShow = document.querySelector('.what-is-it');
 const infoBanner = document.querySelector('.info-banner');
@@ -180,30 +179,40 @@ let infoClassList = infoBanner.classList;
 
 infoShow.addEventListener('click', ()=>{
 
-    if (infoClassList.contains('hidden')){
-        infoClassList.remove('hidden');
-        infoClassList.add('visible');        
+    if (infoClassList.contains('not-show')){
+        infoClassList.remove('not-show');
+        infoClassList.add('shown');        
     }
     else{
-        infoClassList.remove('visible');
-        infoClassList.add('hidden');
+        infoClassList.remove('shown');
+        infoClassList.add('not-show');
     }
 
 })
 
 const body = document.body;
 body.addEventListener('click', (e)=>{
+    let target = e.target;
 
-    if (infoClassList.contains('visible')){
-         infoClassList.remove('visible');
-        infoClassList.add('hidden'); 
+    if(target.classList.contains('select-model')){
+        return null;
+    }
+    else{
+
+        if (infoClassList.contains('shown')){
+             infoClassList.remove('shown');
+            infoClassList.add('not-show'); 
+        }
+
+        if ( ! slideMenu.classList.contains('menu-hidden')){
+            showOrHideMenu();
+        }
+        console.log('body event');
+
     }
 
-    if ( ! slideMenu.classList.contains('hidden')){
-        showOrHideMenu();
-    }
+} ,{capture: true})
 
-    } ,{capture: true})
 // this works but the problem is that i need to consider that the elment is being removed using
 
 

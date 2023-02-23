@@ -2,10 +2,16 @@
 	--primaryColor: #08EEE0;
 	--mainDarkGray:  #5C5C5C;
 	--mainBlack: #3E3C3C;
+	--mainTransiction: all 0.3s linear;
+}
+
+html,body{
+	height: 500px;
 }
 
 body{
 	background: var(--mainDarkGray);
+/*	max-height: 100px;*/
 }
 
 /* MENU BAR */
@@ -44,7 +50,9 @@ body{
 	font-size: 30px;
 	line-height: 48px;
 	color: #08EEE0;
+	transtion: var(--mainTransiction);
 }
+
 
 /*MAIN CONTAINER*/
 
@@ -56,13 +64,17 @@ body{
 }
 
 .main-container{
-	margin-top: 6rem;
+	margin-top: 7rem;
 	color: white;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 	background: var(--mainDarkGray);
+}
+
+.main-container h3{
+	margin-bottom: 1rem;
 }
 
 .image-container{
@@ -139,6 +151,11 @@ input[type="file"] {
 	color: var(--mainDarkGray);
 }
 
+.camera-icon{
+	width: 50px;
+	color: var(--primaryColor);
+}
+
 /*MENU FOR THE SELECTION OF MODELS*/
 
 .select-model{
@@ -159,10 +176,10 @@ input[type="file"] {
 	justify-content: center;
 	flex-grow: 1;
 	padding: 0;	
+	transition: var(--mainTransiction);
 }
 
-.hidden{
-	;
+.menu-hidden{
 	visibility: hidden;
 }
 
@@ -247,6 +264,7 @@ a:hover{
 .off{
 	width: 0;
 	visibility: hidden;
+	
 }
 
 .on{
@@ -254,6 +272,7 @@ a:hover{
 	height: 100%;
 	min-height: 100vh;
 	visibility: visible;
+
 }
 
 .loader{
@@ -267,8 +286,7 @@ a:hover{
 footer{
 	position: absolute;
 	width: 100%;
-	bottom: -15rem;
-
+/*	bottom: -10rem;*/
 	display: flex;
 	align-items: column;
 	justify-content: space-between;
@@ -278,7 +296,7 @@ footer{
 	color: dimgray;
 	padding: 1rem 8rem;
 	padding-bottom: 5rem;
-	height: 10rem;
+/*	height: 10rem;*/
 }
 
 li:hover{
@@ -298,12 +316,14 @@ li+li{
 }
 /*informative banner*/
 
-.hidden{
-	visibility: hidden;
+.not-show{
+/*	visibility: hidden;*/
+	transform: translateX(-100%);
 }
 
-.visible{
-	visibility: visible;
+.shown{
+/*	visibility: visible;*/
+	transform: translateX(0);
 }
 
 .info-banner{
@@ -317,7 +337,7 @@ li+li{
 
 	padding: 1rem;
 
-	transition: visibility 2s;
+	transition:  all 0.5s ease-out;
 }
 
 .info-banner h5{

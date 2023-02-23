@@ -102,7 +102,7 @@ if __name__  == '__main__':
 	# plt.imshow(image2)
 	# plt.show()
 
-# preciso saber porque o preprocessor nao funciona na imagem Lazuli.png.
+
 #  a documentação de normalize sugere que não funciona em imagens do tipo PIL, mas isso não parece ser verdade.
 	# talvez o problema seja converter imagens png (como o logo da lazuli,)
 	# TENTAR IMAGENS E/OU CONVERSÕES PARA JPG.
