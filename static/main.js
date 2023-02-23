@@ -123,13 +123,11 @@ contButton.addEventListener('click',(e)=>{
 
 })
 
-
 models.forEach(model=>{
     model.addEventListener('click', ()=>{
-        console.log(model.innerText);
+ 
         // define the model to be selected
         Model = model.innerText;
-        console.log('variable Model value: ', Model);
 
         modelInfo.innerText = 'The model selected is ' + Model;
         let listaClasses = modelInfo.classList;
@@ -151,9 +149,7 @@ models.forEach(model=>{
         })
 })
 
-selectModelBtn.addEventListener('click', ()=>{
-
-    // check if is visible
+function showOrHideMenu(){
     let classes = slideMenu.classList;
     // console.log(classes.contains('visible'));
     if(classes.contains('hidden')){
@@ -173,19 +169,45 @@ selectModelBtn.addEventListener('click', ()=>{
         arrowLogo.classList.remove('fa-chevron-up');
         arrowLogo.classList.add('fa-chevron-down')
     }
-})
+
+}
+
+selectModelBtn.addEventListener('click', showOrHideMenu);
 
 const infoShow = document.querySelector('.what-is-it');
 const infoBanner = document.querySelector('.info-banner');
 let infoClassList = infoBanner.classList;
 
-infoShow.addEventListener('mouseenter', ()=>{
-    infoClassList.remove('hidden');
-    infoClassList.add('visible');
+infoShow.addEventListener('click', ()=>{
+
+    if (infoClassList.contains('hidden')){
+        infoClassList.remove('hidden');
+        infoClassList.add('visible');        
+    }
+    else{
+        infoClassList.remove('visible');
+        infoClassList.add('hidden');
+    }
 
 })
 
-infoShow.addEventListener('mouseleave', ()=>{
-    infoClassList.remove('visible');
-    infoClassList.add('hidden');
-})
+const body = document.body;
+body.addEventListener('click', (e)=>{
+
+    if (infoClassList.contains('visible')){
+         infoClassList.remove('visible');
+        infoClassList.add('hidden'); 
+    }
+
+    if ( ! slideMenu.classList.contains('hidden')){
+        showOrHideMenu();
+    }
+
+    } ,{capture: true})
+// this works but the problem is that i need to consider that the elment is being removed using
+
+
+// add event listener in the body --> this does not work, one option is to make the page listen to clicks when
+// the target does not have the classlists of interest.
+
+// , removing visible from infoShow, if present, and remove hidden from slideMenu.classList

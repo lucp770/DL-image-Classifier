@@ -293,6 +293,9 @@ li+li{
 	margin-top: .5rem;
 }
 
+.what-is-it{
+	margin-top: 1.5rem;
+}
 /*informative banner*/
 
 .hidden{
@@ -306,15 +309,20 @@ li+li{
 .info-banner{
 	position: absolute;
 	bottom: 10rem;
-	left: 2rem;
-	width: 20%;
+	left: 0;
+	width: 30%;
+	height: 100vh;
 	background: var(--mainBlack);
 	color: dimgray;
 
 	padding: 1rem;
 
 	transition: visibility 2s;
+}
 
+.info-banner h5{
+	color: white;
+	font-size: 1.5rem;
 }
 
 .code-icon{
