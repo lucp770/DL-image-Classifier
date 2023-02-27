@@ -82,28 +82,19 @@ if __name__  == '__main__':
 	print('tensor', input_tensor.shape)
 	print('\n batch: ', input_batch.shape)
 
-
-	# preprocess = transforms.Compose([
-	#     transforms.Resize(299),
-	#     transforms.CenterCrop(299),
-	#     transforms.ToTensor(),
-	#     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-	# ])
-	# input_tensor = preprocess(input_image)
-	# input_batch = input_tensor.unsqueeze(0) # create a mini-batch as expected by the model
-
-	# print('size', input_image.size)
-
-	# print('\n ... trying to apply the preprocess to the image::')
-	# lazuli_tensor  = preprocess(image2)
-	# print(lazuli_tensor)
-
-	# print(input_tensor.shape)
-	# plt.imshow(image2)
-	# plt.show()
+	# check if cuda is available
+	if torch.cuda.is_available():
+		# if it is, send the data and the model to the gpu
+		input_tensor.to('cuda');
+		model.to('cuda')
+	with torch.no_grad():
+		output = model(input_batch)
 
 
-#  a documentação de normalize sugere que não funciona em imagens do tipo PIL, mas isso não parece ser verdade.
-	# talvez o problema seja converter imagens png (como o logo da lazuli,)
-	# TENTAR IMAGENS E/OU CONVERSÕES PARA JPG.
+		# need to normalize the output to get the probabilities.
+
+
+# TODO: NEED TO GET THE LABELS FOR THE IMAGENET DATASET, WORKING ON THE PROCESS_LABELS.PY
+
+
 		
