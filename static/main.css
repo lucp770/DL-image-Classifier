@@ -59,7 +59,7 @@ body{
 .input-container{
 	display: flex;
 	flex-direction: row;
-	margin: 300px;
+/*	margin: 300px;*/
 	margin-top: 2rem;
 }
 
@@ -286,7 +286,6 @@ a:hover{
 footer{
 	position: absolute;
 	width: 100%;
-/*	bottom: -10rem;*/
 	display: flex;
 	align-items: column;
 	justify-content: space-between;
@@ -353,4 +352,34 @@ li+li{
 	position: relative;
 	left: 6rem;
 	bottom: 1.5rem;
+}
+
+/*CAMER ICON*/
+
+.camera-icon{
+	width: 40px;
+	cursor: pointer;
+}
+
+.camera-icon:hover{
+	filter: brightness(1.8);
+}
+
+.camera-icon:hover ~ .add-camera{
+	color: var(--primaryColor);
+}
+
+.add-camera{
+	transition: 0.2s color;
+}
+
+.camera-icon-container{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.camera-icon-container p{
+	color: var(--mainDarkGray);
 }

@@ -8,6 +8,7 @@ const slideMenu = document.querySelector('.model-selection');
 const arrowLogo = document.querySelector('.fa-solid');
 
 const modelInfo = document.querySelector('.model-information');
+const cameraIcon = document.querySelector('.camera-icon');
 
 
 let file = undefined;
@@ -213,10 +214,34 @@ body.addEventListener('click', (e)=>{
 
 } ,{capture: true})
 
-// this works but the problem is that i need to consider that the elment is being removed using
+// capturing  image from user camera
+
+function hasGetUserMedia() {
+    return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia || navigator.msGetUserMedia);
+}
 
 
-// add event listener in the body --> this does not work, one option is to make the page listen to clicks when
-// the target does not have the classlists of interest.
+async function captureImage(){
+    let stream;//define an initial stream
 
-// , removing visible from infoShow, if present, and remove hidden from slideMenu.classList
+    let constraints = {
+        audio: false,
+        video: true,
+    }
+
+    try{
+        stream  = await navigator.mediaDevices.getUserMedia(constraints);
+        // https://web.dev/getusermedia-intro/
+        console.log(stream);
+        // TODO: need to process the stream of data show on screem and allow user to take a pic.
+
+    } catch (err){
+        alert(err);
+    }
+
+}
+
+cameraIcon.addEventListener('click', ()=>{
+    captureImage();
+});

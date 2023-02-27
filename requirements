@@ -1,3 +1,7 @@
 torch
 numpy
 pandas
+matplotlib
+Pillow
+flask
+
