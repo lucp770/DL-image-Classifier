@@ -95,7 +95,7 @@ border: 1px solid var(--primaryColor);
 .model-information{
 	position: absolute;
 	color: var(--primaryColor);
-	margin-top:1.4rem;
+	margin-top:13rem;
 }
 
 /*BUTTONS */
@@ -382,4 +382,55 @@ li+li{
 
 .camera-icon-container p{
 	color: var(--mainDarkGray);
+}
+
+
+/*RESULT*/
+
+.result-info{
+	position: absolute;
+	left: 54rem;
+	top: 10rem;
+	background: var(--mainBlack);
+	border-radius: 1rem;
+	margin-right: 1rem;
+
+	color: var(--primaryColor);
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	min-width: 20rem;
+}
+
+.top5-container{
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: space-around;
+	padding-top: .8rem;
+}
+
+.top5-container li{
+	cursor: inherit;
+}
+
+.label-container{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+.result-title{
+	font-size: 1.4rem;
+	border-bottom: 1px solid var(--primaryColor);
+	width: 100%;
+
+	display: flex;
+	justify-content: center;
+}
+.result-title h3{
+	margin:0;
+	padding:0;
 }

@@ -1,7 +1,6 @@
 import os
 import json
 
-
 def red_data(file):
 	"""
 	read the data from a file with the labels, when the file is formated as :

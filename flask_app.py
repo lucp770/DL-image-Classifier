@@ -66,16 +66,14 @@ def classification():
 	print('\n \n modelo:',model_of_choice)
 	if model_of_choice =='Inception v3':
 		result = inception.Apply_model(image_to_classify);
-	else: result  = none
+	else: result  = 'none'
 
 	print(' \n \n classification done: ', result);
 
 	# else: print('nenhum modelo correspondente');
 	# insert here the classification algorithm
-	plt.imshow(image_to_classify)
-	plt.show()
 
-	return 'classification done'
+	return result
 
 if __name__ =="__main__":
 	app.run(debug=True)

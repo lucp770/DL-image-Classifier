@@ -73,11 +73,10 @@ async function sendDataToServer(){
                  }
                 }
     let responseModel  = await fetch('/model',options);
-
-    console.log('model post: ', responseModel);
-
     options ={method: "POST"}
     let finalResponse = await fetch('/classification',options);
+    finalResponse = await finalResponse.json();
+
 
     // hide backdrop
     hideBackdrop();
@@ -94,7 +93,7 @@ function postData(){
         sendDataToServer();
     }
     else{
-        modelInfo.innerText = "Please select a model"
+        modelInfo.innerText = "Please select a model and upload an image"
         modelInfo.classList.add('Error');
     }
 }
@@ -113,6 +112,11 @@ function sendData(data){
     r.then(res=>console.log(res));
 
 }
+
+function showResults(resultsObject){
+    let resultDiv = '<div class="result-info p-3"><div class="result-title"><h3> RESULTS</h3></div><div class="top5-container"><div class="indexes"><ol class="top5-categories"><li>1st</li><li>2nd</li><li>3rd</li><li>4th</li><li>5th</li></ol></div><div class="categories"><ol class="top5-categories"><li>' + resultsObject.categories[0] + '</li><li>' + resultsObject.categories[1] + '</li><li>' + resultsObject.categories[0] + '</li><li>' + resultsObject.categories[0] + '</li><li>' + resultsObject.categories[0] + '</li></ol></div><div class="probabilities"><ol class="top5-probabilities"><li>'+ resultsObject.probabilities[0] + '</li><li>' + resultsObject.probabilities[0] + '</li><li>' + resultsObject.probabilities[0] + '</li><li>' + resultsObject.probabilities[0] + '</li><li> ' + resultsObject.probabilities[0] + '</li></ol></div></div></div>'
+    
+    }
 
 // event listeners
 
@@ -221,7 +225,6 @@ function hasGetUserMedia() {
             navigator.mozGetUserMedia || navigator.msGetUserMedia);
 }
 
-
 async function captureImage(){
     let stream;//define an initial stream
 
@@ -239,7 +242,6 @@ async function captureImage(){
     } catch (err){
         alert(err);
     }
-
 }
 
 cameraIcon.addEventListener('click', ()=>{

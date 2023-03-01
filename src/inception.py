@@ -70,10 +70,14 @@ def Apply_model(processed_image):
 	categories = get_labels('./src/labels/labels_imagenet')
 
 	top5_categories = [categories[idx] for idx in top5_idx]
-	print(top5_categories)
+	top5_prob = (top5_prob*100).tolist()
 
-	top5_categories = json.dumps(top5_categories)#transform to json
-	return top5_categories
+	data_package  = {"categories" : top5_categories, "probabilities": top5_prob}
+
+	# top5_categories = json.dumps(top5_categories)#transform to json
+	data_package = json.dumps(data_package)
+
+	return data_package
 
 
 if __name__  == '__main__':
@@ -117,7 +121,7 @@ if __name__  == '__main__':
 	categories = get_labels('./labels/labels_imagenet')
 
 	top5_categories = [categories[idx] for idx in top5_idx]
-	print(top5_categories)
+	print((top5_prob*100).tolist())
 
 
 
