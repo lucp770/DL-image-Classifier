@@ -79,7 +79,6 @@ def Apply_model(processed_image):
 
 	return data_package
 
-
 if __name__  == '__main__':
 	import torch
 	model = torch.hub.load('pytorch/vision:v0.10.0', 'inception_v3', pretrained=True)
@@ -122,8 +121,6 @@ if __name__  == '__main__':
 
 	top5_categories = [categories[idx] for idx in top5_idx]
 	print((top5_prob*100).tolist())
-
-
 
 	# need to normalize the output to get the probabilities.
 	# ['Samoyed', 'Arctic fox', 'white wolf', 'Pomeranian', 'keeshond']
