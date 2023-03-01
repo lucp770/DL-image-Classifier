@@ -30,33 +30,51 @@ def RGB_processor(RGB_image):
 
 	return transformed_image
 
+def get_labels(file):
+
+	with open(file) as label_file:
+		categories = json.load(label_file)
+	return categories;
+
+
 def Apply_model(processed_image):
 
 	PIL_image = Image.fromarray(processed_image)
-	print('\n \n Size: ', PIL_image.size)
-	print('\n \n color: ', PIL_image.getcolors())
 
 	model = torch.hub.load('pytorch/vision:v0.10.0', 'inception_v3', pretrained=True)
 	model.eval()
 
-	# ḍefine the preprocess and check the image result(before and after)
-	# preprocess = transforms.Compose([transforms.Resize(299),
-	# transforms.CenterCrop(299),
-	# transforms.ToTensor(),
-	# # transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-	# ])
+	if len(PIL_image.getbands())  == 3:
+		input_tensor = RGB_processor(PIL_image)
+	elif len(PIL_image.getbands()) == 4:
+		input_tensor = RGBA_processor(PIL_image)
+	else: print(' \n \n ERROR! : image type is not recognized \n ');
 
-	# transformed_image = preprocess(PIL_image);
+	input_batch = input_tensor.unsqueeze(0) # create a mini-batch as expected by the model
 
-	# plt.subplot(1,1,1)
-	# plt.imshow(PIL_image)
-	# plt.title('imagem antes do preprocess')
+	# check if cuda is available
+	if torch.cuda.is_available():
+		# if it is, send the data and the model to the gpu
+		input_tensor.to('cuda');
+		model.to('cuda')
 
-	# plt.subplot(1,1,2)
-	# plt.imshow(PIL_image)
-	# plt.title('imagem apos processamento')
+	with torch.no_grad():
+		output = model(input_batch)
 
-	# plt.show()
+	output = output[0]#remove just the first element of the batch
+	probabilities = torch.nn.functional.softmax(output, dim=0)#get the probabilities
+
+	# Show top categories per image
+	top5_prob, top5_idx = torch.topk(probabilities, 5)
+
+	categories = get_labels('./src/labels/labels_imagenet')
+
+	top5_categories = [categories[idx] for idx in top5_idx]
+	print(top5_categories)
+
+	top5_categories = json.dumps(top5_categories)#transform to json
+	return top5_categories
+
 
 if __name__  == '__main__':
 	import torch
@@ -90,11 +108,22 @@ if __name__  == '__main__':
 	with torch.no_grad():
 		output = model(input_batch)
 
+	output = output[0]#remove just the first element of the batch
+	probabilities = torch.nn.functional.softmax(output, dim=0)#get the probabilities
 
-		# need to normalize the output to get the probabilities.
+	# Show top categories per image
+	top5_prob, top5_idx = torch.topk(probabilities, 5)
+
+	categories = get_labels('./labels/labels_imagenet')
+
+	top5_categories = [categories[idx] for idx in top5_idx]
+	print(top5_categories)
 
 
-# TODO: NEED TO GET THE LABELS FOR THE IMAGENET DATASET, WORKING ON THE PROCESS_LABELS.PY
+
+	# need to normalize the output to get the probabilities.
+	# ['Samoyed', 'Arctic fox', 'white wolf', 'Pomeranian', 'keeshond']
+
 
 
 		

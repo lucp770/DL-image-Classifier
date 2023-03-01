@@ -65,7 +65,10 @@ def classification():
 	image_to_classify = image
 	print('\n \n modelo:',model_of_choice)
 	if model_of_choice =='Inception v3':
-		inception.Apply_model(image_to_classify);
+		result = inception.Apply_model(image_to_classify);
+	else: result  = none
+
+	print(' \n \n classification done: ', result);
 
 	# else: print('nenhum modelo correspondente');
 	# insert here the classification algorithm
@@ -74,13 +77,14 @@ def classification():
 
 	return 'classification done'
 
-
 if __name__ =="__main__":
 	app.run(debug=True)
 
 
 
-# 
+# UM PROBLEMA  A SE LIDAR: COMO LIDAR COM O FATO DE QUE DIFERENTES REQUESTS, VÃO ALTERAR AS VARIÁVES GLOBAIS.
+# COMO O SERVIDOR SABE QUAL O VALOR DAS VARIÁVEIS GLOBAIS QUANDO SE TEM MAIS DE UM CLIENTE USANDO A APLICAÇÃO?
+# TALVEZ SEJA NECESSÁRIO MANTER DADOS ASSOCIADOS A SESSÃO DO USUARIO, PARA SABER A QUAL USUARIO VC ESTA RESPONDENDO.
+# E QUAIS VARIÁVEIS PRECISAM SER MANTIDAS PARA RESPONDER APROPRIADAMENTE PARA CADA CLIENTE.
+# 	uma possivel solução é manter um dicionário, onde o indice é a sessão do usuario e o valor são as suas escolhas.
 
-# -implementar a classificação e um retorno para o usuario no método
-# -usar modelos pre treinados para um resultado melhor e compara-los.

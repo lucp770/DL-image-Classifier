@@ -1,4 +1,6 @@
-import pickle
+import os
+import json
+
 
 def red_data(file):
 	"""
@@ -13,20 +15,21 @@ def red_data(file):
 			labels.append(line[:-1])#ignores the last element, the \n especial character
 	return labels
 
-def save_as_byte_stream(labels_array):
+def save_as_json(labels_array, filename):
 	"""
-	transform an array of labels, to a byte stream and save to a picke file.
-
+	transform an array of labels, to a json file.
+	save to /labels/<filename.json>
 	"""
-	pickle.dump(labels_array, name);
-
+	out_file = open('./labels/' + filename, 'w')#open a file with name indicated in the writing mode
+	json.dump(labels_array, out_file);
 
 
 # an example of use:
 # get the file 
-file = './labels'
+file = './labels_imagenet'
 # obtain the array of labels
 array = red_data(file)
 # save the array of labels in the folder, as a pickle file.
-save_as_byte_stream(array);
+save_as_json(array,file);
+
 
