@@ -8,7 +8,6 @@ current_dir = os.getcwd()
 import sys
 sys.path.append(current_dir+'/src')
 import json 
-
 import inception
 
 import imageio as iio
@@ -25,64 +24,69 @@ models = [('CNN','#'),('AlexNet','https://pytorch.org/hub/pytorch_vision_alexnet
 ('SqueezeNet','https://pytorch.org/hub/pytorch_vision_squeezenet/') ,('DenseNet','https://pytorch.org/hub/pytorch_vision_densenet/'),
 ('Inception v3','https://pytorch.org/hub/pytorch_vision_inception_v3/')]
 
-def setImage(imagem):
-	global image
-	image = imagem
+# def setImage(imagem):
+# 	global image
+# 	image = imagem
 
-def setModel(model):
-	global currentModel
-	currentModel = model;
+# def setModel(model):
+# 	global currentModel
+# 	currentModel = model;
 
 @app.route("/")
 def homepage():
 	return render_template("main.html", models = models)
 
-@app.route("/", methods = ['POST'])
-def receive_image():
-	# manipulate and transform the image in an array.
-	# get the data stream from the post request
-	image_data = request.get_data()
 
-	image_data= iio.imread(image_data)
-	# print(image)
-	# image_data = Image.open(image_data)
-	print(image_data)
-	setImage(image_data);
-	
-	return "image received"
-
-@app.route("/model", methods = ['POST'])
-def processModel():
+@app.route("/classification", methods=['POST'])
+def classifyImage():
 	data = request.get_json()
-	data = data['selected model'];
-	# print('\n parsed data : ', json.loads(data))
-	setModel(data)
-	return "model received"
+	# parsedData = json.loads(imageData)
+	imageData = data['image64Code']
+	model = data['model']
 
-@app.route("/classification", methods = ['POST'])
-def classification():
-	model_of_choice = currentModel
-	image_to_classify = image
-	print('\n \n modelo:',model_of_choice)
-	if model_of_choice =='Inception v3':
-		result = inception.Apply_model(image_to_classify);
-	else: result  = 'none'
+	print('image data : ', imageData)
+	print('\n \n Model: ', model)
+	
+	return 'OK'
 
-	print(' \n \n classification done: ', result);
+# @app.route("/", methods = ['POST'])
+# def receive_image():
+# 	# manipulate and transform the image in an array.
+# 	# get the data stream from the post request
+# 	image_data = request.get_data()
 
-	# else: print('nenhum modelo correspondente');
-	# insert here the classification algorithm
+# 	image_data= iio.imread(image_data)
+# 	# print(image)
+# 	# image_data = Image.open(image_data)
+# 	print(image_data)
+# 	setImage(image_data)
+	
+# 	return "image received"
 
-	return result
+# @app.route("/model", methods = ['POST'])
+# def processModel():
+# 	data = request.get_json()
+# 	data = data['selected model'];
+# 	# print('\n parsed data : ', json.loads(data))
+# 	setModel(data)
+# 	return "model received"
+
+# @app.route("/classification", methods = ['POST'])
+# def classification():
+# 	model_of_choice = currentModel
+# 	image_to_classify = image
+# 	print('\n \n modelo:',model_of_choice)
+# 	if model_of_choice =='Inception v3':
+# 		result = inception.Apply_model(image_to_classify);
+# 	else: result  = 'none'
+
+# 	print(' \n \n classification done: ', result);
+
+# 	# else: print('nenhum modelo correspondente');
+# 	# insert here the classification algorithm
+
+# 	return result
 
 if __name__ =="__main__":
 	app.run(debug=True)
-
-
-
-# UM PROBLEMA  A SE LIDAR: COMO LIDAR COM O FATO DE QUE DIFERENTES REQUESTS, VÃO ALTERAR AS VARIÁVES GLOBAIS.
-# COMO O SERVIDOR SABE QUAL O VALOR DAS VARIÁVEIS GLOBAIS QUANDO SE TEM MAIS DE UM CLIENTE USANDO A APLICAÇÃO?
-# TALVEZ SEJA NECESSÁRIO MANTER DADOS ASSOCIADOS A SESSÃO DO USUARIO, PARA SABER A QUAL USUARIO VC ESTA RESPONDENDO.
-# E QUAIS VARIÁVEIS PRECISAM SER MANTIDAS PARA RESPONDER APROPRIADAMENTE PARA CADA CLIENTE.
-# 	uma possivel solução é manter um dicionário, onde o indice é a sessão do usuario e o valor são as suas escolhas.
 

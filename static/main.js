@@ -16,9 +16,22 @@ let errorMessage;
 let Model = '';
 
 function showFile(input){
-	file = input.files[0];
-	imgUrl = URL.createObjectURL(file);
+    // define o valor de file, uma variavel global que armazena o arquivo selecionado.
+	let fileUploaded = input.files[0];
+	imgUrl = URL.createObjectURL(fileUploaded);
+
 	imgContainer.innerHTML = '<img class ="img" src = "'+imgUrl+ '" alt = "user-input-image"/>';
+
+    // salvar o arquivo como dataUrl:
+    const fileReader = new FileReader();
+    fileReader.addEventListener('load', (event)=>{
+        const result = event.target.result;
+        console.log({result})
+        // assign the base64 data to the global variable file
+        file = result;
+    })
+
+    fileReader.readAsDataURL(fileUploaded);
 }
 
 function hideBackdrop(){
@@ -56,32 +69,30 @@ function userCanProceed(){
 
 
 async function sendDataToServer(){
+
+    let requestBody = {
+        image64Code: file,
+        model: Model
+    };
+
     // the firts post to the serve
     let options = {method: "POST",
-        body: file,
-        headers: {'content-type':'img/png'}
+        body: JSON.stringify(requestBody),
+        headers: {'content-type':'application/json'}
         };
 
-    // show backdrop
+    console.log({requestBody});
+    console.log({options});
+
+    // // show backdrop
         showBackdrop();
 
-    let responseImage = await fetch('/',options);
+    let serverClassResponse = await fetch('/classification',options);
 
-    options ={method: "POST",
-                body: JSON.stringify({'selected model': Model}),
-                headers: {'content-type':'application/json'
-                 }
-                }
-    let responseModel  = await fetch('/model',options);
-    options ={method: "POST"}
-    let finalResponse = await fetch('/classification',options);
-    finalResponse = await finalResponse.json();
-
-    // hide backdrop
     hideBackdrop();
-    showResults(finalResponse);
+    // showResults(finalResponse);
 
-    console.log('final response: ', finalResponse);
+    // console.log('final response: ', finalResponse);
 }
 
 function postData(){
