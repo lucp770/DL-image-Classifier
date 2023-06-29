@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request
+import base64
+
 
 from matplotlib import pyplot as plt
 
@@ -44,10 +46,15 @@ def classifyImage():
 	imageData = data['image64Code']
 	model = data['model']
 
-	print('image data : ', imageData)
-	print('\n \n Model: ', model)
-	
-	return 'OK'
+	#transform the base64 data into an array
+	img = iio.imread(base64.b64decode(imageData))
+	if model =='Inception v3':
+		result = inception.Apply_model(img)
+	else: result  = 'none'
+	response = json.dumps(result)
+	return response
+
+
 
 # @app.route("/", methods = ['POST'])
 # def receive_image():

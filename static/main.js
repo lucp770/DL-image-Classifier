@@ -70,8 +70,14 @@ function userCanProceed(){
 
 async function sendDataToServer(){
 
+    let [dataType,image64Code] = file.split(',');
+    dataType = dataType.split(';')[0].split(':')[1]
+    console.log({dataType,image64Code});
+
     let requestBody = {
-        image64Code: file,
+        rawData: file,
+        dataType: dataType,
+        image64Code: image64Code,
         model: Model
     };
 
@@ -88,9 +94,10 @@ async function sendDataToServer(){
         showBackdrop();
 
     let serverClassResponse = await fetch('/classification',options);
-
+    let finalResponse = await serverClassResponse.json()
+    finalResponse = JSON.parse(finalResponse)
     hideBackdrop();
-    // showResults(finalResponse);
+    showResults(finalResponse);
 
     // console.log('final response: ', finalResponse);
 }
@@ -125,8 +132,41 @@ function sendData(data){
 }
 
 function showResults(resultsObject){
-    let resultDiv = '<div class="result-info p-3"><div class="result-title"><h3> RESULTS</h3></div><div class="top5-container"><div class="indexes"><ol class="top5-categories"><li>1st</li><li>2nd</li><li>3rd</li><li>4th</li><li>5th</li></ol></div><div class="categories"><ol class="top5-categories"><li>' + resultsObject.categories[0] + '</li><li>' + resultsObject.categories[1] + '</li><li>' + resultsObject.categories[2] + '</li><li>' + resultsObject.categories[3] + '</li><li>' + resultsObject.categories[4] + '</li></ol></div><div class="probabilities"><ol class="top5-probabilities"><li>'+ resultsObject.probabilities[0].toFixed(2) + '% </li><li>' + resultsObject.probabilities[1].toFixed(2) + ' % </li><li>' + resultsObject.probabilities[2].toFixed(2) + ' % </li><li>' + resultsObject.probabilities[3].toFixed(2) + ' % </li><li> ' + resultsObject.probabilities[4].toFixed(2) + ' % </li></ol></div></div></div>'
-    
+    let resultDiv = `
+    <div class="result-info p-3">
+        <div class="result-title">
+            <h3> RESULTS</h3>
+        </div>
+        <div class="top5-container">
+            <div class="indexes">
+                <ol class="top5-categories">
+                    <li>1st</li>
+                    <li>2nd</li>
+                    <li>3rd</li>
+                    <li>4th</li>
+                    <li>5th</li>
+                </ol>
+            </div>
+            <div class="categories">
+                <ol class="top5-categories">
+                    <li>${resultsObject.categories[0]}</li>
+                    <li>${resultsObject.categories[1]}</li>
+                    <li>${resultsObject.categories[2]}</li>
+                    <li>${resultsObject.categories[3]}</li>
+                    <li>${resultsObject.categories[4]}</li>
+                </ol>
+            </div>
+            <div class="probabilities">
+                <ol class="top5-probabilities">
+                    <li>${resultsObject.probabilities[0].toFixed(2)}%</li>
+                    <li>${resultsObject.probabilities[1].toFixed(2)}% </li>
+                    <li>${resultsObject.probabilities[2].toFixed(2)}%</li>
+                    <li>${resultsObject.probabilities[3].toFixed(2)}% </li>
+                    <li>${resultsObject.probabilities[4].toFixed(2)}% </li>
+                </ol>
+            </div>
+        </div>
+    </div>`
     let mainContainerDiv = document.querySelector('.main-container');
     let resultInfo = document.querySelector('.result-info');
 
