@@ -1,4 +1,4 @@
-const imgContainer = document.querySelector('.image-container');
+// const imgContainer = document.querySelector('.image-container');
 const contButton = document.querySelector('.continue-button');
 
 const models = document.querySelectorAll('.model');
@@ -17,10 +17,19 @@ let Model = '';
 
 function showFile(input){
     // define o valor de file, uma variavel global que armazena o arquivo selecionado.
+    console.log(input.files)
 	let fileUploaded = input.files[0];
 	imgUrl = URL.createObjectURL(fileUploaded);
-
+    const imgContainer = document.querySelector('.image-container');
 	imgContainer.innerHTML = '<img class ="img" src = "'+imgUrl+ '" alt = "user-input-image"/>';
+
+    // ṿerify if already have a result div. If yes, remove it.
+    let mainContainerDiv = document.querySelector('.main-container');
+    let resultInfo = document.querySelector('.result-info');
+
+    if (resultInfo){
+        mainContainerDiv.removeChild(resultInfo)//remove the 4th child
+    }
 
     // salvar o arquivo como dataUrl:
     const fileReader = new FileReader();
@@ -91,7 +100,7 @@ async function sendDataToServer(){
     console.log({options});
 
     // // show backdrop
-        showBackdrop();
+    showBackdrop();
 
     let serverClassResponse = await fetch('/classification',options);
     let finalResponse = await serverClassResponse.json()
@@ -132,55 +141,79 @@ function sendData(data){
 }
 
 function showResults(resultsObject){
-    let resultDiv = `
-    <div class="result-info p-3">
-        <div class="result-title">
-            <h3> RESULTS</h3>
-        </div>
-        <div class="top5-container">
-            <div class="indexes">
-                <ol class="top5-categories">
-                    <li>1st</li>
-                    <li>2nd</li>
-                    <li>3rd</li>
-                    <li>4th</li>
-                    <li>5th</li>
-                </ol>
-            </div>
-            <div class="categories">
-                <ol class="top5-categories">
-                    <li>${resultsObject.categories[0]}</li>
-                    <li>${resultsObject.categories[1]}</li>
-                    <li>${resultsObject.categories[2]}</li>
-                    <li>${resultsObject.categories[3]}</li>
-                    <li>${resultsObject.categories[4]}</li>
-                </ol>
-            </div>
-            <div class="probabilities">
-                <ol class="top5-probabilities">
-                    <li>${resultsObject.probabilities[0].toFixed(2)}%</li>
-                    <li>${resultsObject.probabilities[1].toFixed(2)}% </li>
-                    <li>${resultsObject.probabilities[2].toFixed(2)}%</li>
-                    <li>${resultsObject.probabilities[3].toFixed(2)}% </li>
-                    <li>${resultsObject.probabilities[4].toFixed(2)}% </li>
-                </ol>
-            </div>
-        </div>
-    </div>`
-    let mainContainerDiv = document.querySelector('.main-container');
-    let resultInfo = document.querySelector('.result-info');
 
-    if (resultInfo){
-        mainContainerDiv.removeChild(mainContainerDiv.children[4])//remove the 4th child
+    let divResults = document.createElement('div');
+    divResults.classList.add('result-info');
+    divResults.classList.add('p-3');
+    divResults.innerHTML = `
+    <div class="result-title">
+        <h3> RESULTS</h3>
+    </div>
+    <div class="top5-container">
+        <div class="indexes">
+            <ol class="top5-categories">
+                <li>1st</li>
+                <li>2nd</li>
+                <li>3rd</li>
+                <li>4th</li>
+                <li>5th</li>
+            </ol>
+        </div>
+        <div class="categories">
+            <ol class="top5-categories">
+                <li>${resultsObject.categories[0]}</li>
+                <li>${resultsObject.categories[1]}</li>
+                <li>${resultsObject.categories[2]}</li>
+                <li>${resultsObject.categories[3]}</li>
+                <li>${resultsObject.categories[4]}</li>
+            </ol>
+        </div>
+        <div class="probabilities">
+            <ol class="top5-probabilities">
+                <li>${resultsObject.probabilities[0].toFixed(2)}%</li>
+                <li>${resultsObject.probabilities[1].toFixed(2)}% </li>
+                <li>${resultsObject.probabilities[2].toFixed(2)}%</li>
+                <li>${resultsObject.probabilities[3].toFixed(2)}% </li>
+                <li>${resultsObject.probabilities[4].toFixed(2)}% </li>
+            </ol>
+        </div>
+    </div>`;
+
+    let mainContainerDiv = document.querySelector('.main-container');
+    mainContainerDiv.appendChild(divResults);
     }
-    
-    mainContainerDiv.innerHTML += resultDiv;
+
+// capturing  image from user camera
+
+function hasGetUserMedia() {
+    return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia || navigator.msGetUserMedia);
+}
+
+async function captureImage(){
+    let stream;//define an initial stream
+
+    let constraints = {
+        audio: false,
+        video: true,
     }
+
+    try{
+        stream  = await navigator.mediaDevices.getUserMedia(constraints);
+        // https://web.dev/getusermedia-intro/
+        console.log(stream);
+        // TODO: need to process the stream of data show on screem and allow user to take a pic.
+
+    } catch (err){
+        alert(err);
+    }
+}
 
 // event listeners
 
 contButton.addEventListener('click',(e)=>{
-    e.preventDefault();
+    // e.preventDefault();
+    console.log('clicado');
     postData();
 
 })
@@ -277,35 +310,12 @@ body.addEventListener('click', (e)=>{
 
 } ,{capture: true})
 
-// capturing  image from user camera
 
-function hasGetUserMedia() {
-    return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia || navigator.msGetUserMedia);
-}
-
-async function captureImage(){
-    let stream;//define an initial stream
-
-    let constraints = {
-        audio: false,
-        video: true,
-    }
-
-    try{
-        stream  = await navigator.mediaDevices.getUserMedia(constraints);
-        // https://web.dev/getusermedia-intro/
-        console.log(stream);
-        // TODO: need to process the stream of data show on screem and allow user to take a pic.
-
-    } catch (err){
-        alert(err);
-    }
-}
 
 cameraIcon.addEventListener('click', ()=>{
     captureImage();
 });
 
 
-// TODO: ADD THE FUNC TO ADD NEW IMAGE
+// concertar os erros associados a depreceação
+// adicionar suporte para mais de um  modelo.
