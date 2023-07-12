@@ -12,7 +12,7 @@ sys.path.append(current_dir+'/src')
 import json 
 import inception
 
-import imageio as iio
+import imageio.v2 as iio
 from PIL import Image
 
 

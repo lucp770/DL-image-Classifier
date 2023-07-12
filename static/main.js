@@ -190,18 +190,46 @@ function hasGetUserMedia() {
             navigator.mozGetUserMedia || navigator.msGetUserMedia);
 }
 
-async function captureImage(){
-    let stream;//define an initial stream
+async function captureImage(videoElement){
 
     let constraints = {
         audio: false,
         video: true,
     }
 
+    console.log(videoElement);
+
     try{
-        stream  = await navigator.mediaDevices.getUserMedia(constraints);
+        console.log(navigator.mediaDevices.enumerateDevices());
+
+        let mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+
+        videoElement.srcObject = mediaStream;
+        videoElement.onloadedmetadata = (e)=>{
+            console.log('Pronto')
+            // adicionar um evento clique para todo o overlay e capturar a imagem.
+        };
+
+        console.log(mediaStream);
+
+        // let track = mediaStream.getAudioTracks()[0];
+
+        return mediaStream;
+
+
+        // 
+
+        // navigator.mediaDevices.getUserMedia(constraints, (dataStream)=>{
+        //     videoElement.src = window.URL.createObjectURL(dataStream);
+
+
+        //     videoElement.onloadedmetadata = (e)=>{
+        //         console.log('Pronto');
+        //     }
+        // }, (err)=> alert(`Erro ao acessar a camera: ${err}`));
+
         // https://web.dev/getusermedia-intro/
-        console.log(stream);
+        // console.log(stream);
         // TODO: need to process the stream of data show on screem and allow user to take a pic.
 
     } catch (err){
@@ -312,10 +340,36 @@ body.addEventListener('click', (e)=>{
 
 
 
-cameraIcon.addEventListener('click', ()=>{
-    captureImage();
+cameraIcon.addEventListener('click', async ()=>{
+
+    // mostrar o overlay da camera
+    let captureOverlay = document.querySelector('.video-overlay');
+    let fecharBtn = document.querySelector('.close-capture');
+    let videoElement = document.querySelector('.video-capture');
+    
+    captureOverlay.classList.remove('hidden');
+
+    let mediaStream = await captureImage(videoElement);
+    let track = mediaStream.getVideoTracks()[0];
+
+    let capture = new ImageCapture(track);
+    console.log(capture);
+
+
+
 });
 
 
-// concertar os erros associados a depreceação
+// pegando camera do usuario:
+    // ao clicar na camera, mostrar um overlay.
+    // esse overlay possui um div central, com um elemento <video></video>
+    // video.src precisa receber o datastream do metodo getUserMedia.
+
 // adicionar suporte para mais de um  modelo.
+
+/*
+-estilizar video overlay e container
+-ao clicar da camera, mostrar o overlay
+-transmitir a stream do video para o elemento de video.
+-ao fechar precisa eliminar isso.
+*/

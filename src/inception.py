@@ -34,28 +34,28 @@ def get_labels(file):
 
 	with open(file) as label_file:
 		categories = json.load(label_file)
-	return categories;
+	return categories
 
 
 def Apply_model(processed_image):
 
 	PIL_image = Image.fromarray(processed_image)
 
-	model = torch.hub.load('pytorch/vision:v0.10.0', 'inception_v3', pretrained=True)
+	model = torch.hub.load('pytorch/vision:v0.10.0', 'inception_v3', weights='Inception_V3_Weights.DEFAULT')
 	model.eval()
 
 	if len(PIL_image.getbands())  == 3:
 		input_tensor = RGB_processor(PIL_image)
 	elif len(PIL_image.getbands()) == 4:
 		input_tensor = RGBA_processor(PIL_image)
-	else: print(' \n \n ERROR! : image type is not recognized \n ');
+	else: print(' \n \n ERROR! : image type is not recognized \n ')
 
 	input_batch = input_tensor.unsqueeze(0) # create a mini-batch as expected by the model
 
 	# check if cuda is available
 	if torch.cuda.is_available():
 		# if it is, send the data and the model to the gpu
-		input_tensor.to('cuda');
+		input_tensor.to('cuda')
 		model.to('cuda')
 
 	with torch.no_grad():
@@ -96,7 +96,7 @@ if __name__  == '__main__':
 		input_tensor = RGB_processor(image2)
 	elif len(image2.getbands()) == 4:
 		input_tensor = RGBA_processor(image2)
-	else: print(' \n \n ERROR! : image type is not recognized \n ');
+	else: print(' \n \n ERROR! : image type is not recognized \n ')
 
 	input_batch = input_tensor.unsqueeze(0) # create a mini-batch as expected by the model
 
@@ -106,7 +106,7 @@ if __name__  == '__main__':
 	# check if cuda is available
 	if torch.cuda.is_available():
 		# if it is, send the data and the model to the gpu
-		input_tensor.to('cuda');
+		input_tensor.to('cuda')
 		model.to('cuda')
 	with torch.no_grad():
 		output = model(input_batch)
