@@ -216,7 +216,7 @@ async function captureImage(videoElement){
         console.log(navigator.mediaDevices.enumerateDevices());
 
         let mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-
+        console.log(navigator.mediaDevices);
         videoElement.srcObject = mediaStream;
         videoElement.onloadedmetadata = (e)=>{
             console.log('Pronto')
@@ -386,23 +386,19 @@ cameraIcon.addEventListener('click', async ()=>{
             console.log({blobText, fotoStream, fotoArrayBuffer});
             // add to the image
             showFile(foto, fromCamera=true);
+            track.stop();
 
         })
     }
 
-
-
+    fecharBtn.addEventListener('click', ()=>{
+        captureOverlay.classList.add('hidden');
+        videoElement.srcObject = null;
+        mediaStream.getVideoTracks()[0].stop();
+    })
 
 });
 
-document.querySelector('.close-capture').addEventListener('click', ()=>{
-
-    // close the camera
-    
-
-    let captureOverlay = document.querySelector('.video-overlay');
-    captureOverlay.classList.add('hidden');
-})
 
 
 // adicionar suporte para mais de um  modelo.
