@@ -15,11 +15,34 @@ let file = undefined;
 let errorMessage;
 let Model = '';
 
-function showFile(input){
-    // define o valor de file, uma variavel global que armazena o arquivo selecionado.
-    console.log(input.files)
-	let fileUploaded = input.files[0];
-	imgUrl = URL.createObjectURL(fileUploaded);
+function showFile(input, fromCamera = false){
+    let imgUrl;
+    // definir um fileReader para ler os dados como dataUrl.
+    const fileReader = new FileReader();
+    fileReader.addEventListener('load', (event)=>{
+        const result = event.target.result;
+        console.log({result})
+        // assign the base64 data to the global variable file
+        file = result;
+    })
+
+    if(fromCamera){
+        imgUrl = URL.createObjectURL(input);
+
+        // assinalar o valor de file como sendo a base64 do blob.
+        fileReader.readAsDataURL(input);
+
+
+    }else{
+          // define o valor de file, uma variavel global que armazena o arquivo selecionado.
+        console.log(input.files)
+        let fileUploaded = input.files[0];
+        imgUrl = URL.createObjectURL(fileUploaded);
+
+        fileReader.readAsDataURL(fileUploaded);
+    }
+
+  
     const imgContainer = document.querySelector('.image-container');
 	imgContainer.innerHTML = '<img class ="img" src = "'+imgUrl+ '" alt = "user-input-image"/>';
 
@@ -31,16 +54,6 @@ function showFile(input){
         mainContainerDiv.removeChild(resultInfo)//remove the 4th child
     }
 
-    // salvar o arquivo como dataUrl:
-    const fileReader = new FileReader();
-    fileReader.addEventListener('load', (event)=>{
-        const result = event.target.result;
-        console.log({result})
-        // assign the base64 data to the global variable file
-        file = result;
-    })
-
-    fileReader.readAsDataURL(fileUploaded);
 }
 
 function hideBackdrop(){
@@ -350,20 +363,47 @@ cameraIcon.addEventListener('click', async ()=>{
     captureOverlay.classList.remove('hidden');
 
     let mediaStream = await captureImage(videoElement);
-    let track = mediaStream.getVideoTracks()[0];
 
-    let capture = new ImageCapture(track);
-    console.log(capture);
+    if(mediaStream){
+        let track = mediaStream.getVideoTracks()[0];
+        // add an evenListener to the overlay object.
+        
+        captureOverlay.addEventListener('dblclick', async ()=>{
+            let capture = new ImageCapture(track);
+            let foto = await capture.takePhoto();
+
+            // hide the overlay
+            captureOverlay.classList.add('hidden');
+
+
+            // set the blob of photo in the image space.
+            console.log(capture);
+            console.log({foto});
+            let blobText = await foto.text();
+            let fotoStream = await foto.stream();
+            let fotoArrayBuffer = await foto.arrayBuffer();
+
+            console.log({blobText, fotoStream, fotoArrayBuffer});
+            // add to the image
+            showFile(foto, fromCamera=true);
+
+        })
+    }
+
 
 
 
 });
 
+document.querySelector('.close-capture').addEventListener('click', ()=>{
 
-// pegando camera do usuario:
-    // ao clicar na camera, mostrar um overlay.
-    // esse overlay possui um div central, com um elemento <video></video>
-    // video.src precisa receber o datastream do metodo getUserMedia.
+    // close the camera
+    
+
+    let captureOverlay = document.querySelector('.video-overlay');
+    captureOverlay.classList.add('hidden');
+})
+
 
 // adicionar suporte para mais de um  modelo.
 
