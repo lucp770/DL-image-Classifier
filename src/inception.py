@@ -13,7 +13,7 @@ def RGBA_processor(RGBA_image):
 	transforms.Normalize(mean=[0.485, 0.456, 0.406,0.406], std=[0.229, 0.224, 0.225, 0.225]),
 	])
 
-	transformed_image = preprocess(RGBA_image);
+	transformed_image = preprocess(RGBA_image)
 
 	return transformed_image
 
@@ -81,7 +81,6 @@ def Apply_Inception_model(processed_image):
 	return data_package
 
 
-
 def Apply_AlexNet_Model(processed_image):
 
 	PIL_image = Image.fromarray(processed_image)
@@ -124,10 +123,45 @@ def Apply_AlexNet_Model(processed_image):
 
 	return data_package
 
+def Apply_VGG_Model(processed_image):
+	PIL_image = Image.fromarray(processed_image)
+	model = torch.hub.load('pytorch/vision:v0.10.0', 'vgg11', weights='VGG11_Weights.DEFAULT')
+	model.eval()
 
+	if len(PIL_image.getbands())  == 3:
+		input_tensor = RGB_processor(PIL_image)
+	elif len(PIL_image.getbands()) == 4:
+		input_tensor = RGBA_processor(PIL_image)
+	else: print(' \n \n ERROR! : image type is not recognized \n ')
 
+	input_batch = input_tensor.unsqueeze(0) # create a mini-batch as expected by the model
 
+	# check if cuda is available
+	if torch.cuda.is_available():
+		# if it is, send the data and the model to the gpu
+		input_tensor.to('cuda')
+		model.to('cuda')
 
+	with torch.no_grad():
+		output = model(input_batch)
+
+	output = output[0]#remove just the first element of the batch
+	probabilities = torch.nn.functional.softmax(output, dim=0)#get the probabilities
+
+	# Show top categories per image
+	top5_prob, top5_idx = torch.topk(probabilities, 5)
+
+	categories = get_labels('./src/labels/labels_imagenet')
+
+	top5_categories = [categories[idx] for idx in top5_idx]
+	top5_prob = (top5_prob*100).tolist()
+
+	data_package  = {"categories" : top5_categories, "probabilities": top5_prob}
+
+	# top5_categories = json.dumps(top5_categories)#transform to json
+	data_package = json.dumps(data_package)
+
+	return data_package
 
 
 
