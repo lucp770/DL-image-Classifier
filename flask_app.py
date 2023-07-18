@@ -49,7 +49,9 @@ def classifyImage():
 	#transform the base64 data into an array
 	img = iio.imread(base64.b64decode(imageData))
 	if model =='Inception v3':
-		result = inception.Apply_model(img)
+		result = inception.Apply_Inception_model(img)
+	elif model =='AlexNet':
+		result = inception.Apply_AlexNet_Model(img)
 	else: result  = 'none'
 	response = json.dumps(result)
 	return response
