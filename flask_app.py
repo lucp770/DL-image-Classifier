@@ -21,18 +21,10 @@ from PIL import Image
 app = Flask(__name__)
 
 
-models = [('CNN','#'),('AlexNet','https://pytorch.org/hub/pytorch_vision_alexnet/'),
+models = [('AlexNet','https://pytorch.org/hub/pytorch_vision_alexnet/'),
 ('VGG','https://pytorch.org/hub/pytorch_vision_vgg/'),('ResNet','https://pytorch.org/hub/pytorch_vision_resnet'),
 ('SqueezeNet','https://pytorch.org/hub/pytorch_vision_squeezenet/') ,('DenseNet','https://pytorch.org/hub/pytorch_vision_densenet/'),
 ('Inception v3','https://pytorch.org/hub/pytorch_vision_inception_v3/')]
-
-# def setImage(imagem):
-# 	global image
-# 	image = imagem
-
-# def setModel(model):
-# 	global currentModel
-# 	currentModel = model;
 
 @app.route("/")
 def homepage():
