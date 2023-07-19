@@ -21,6 +21,7 @@ body{
 .menu-bar{
 	position: absolute;
 	width: 100%;
+	min-width: 950px;
 	height: 89px;
 	left: 0px;
 	top: 0px;
@@ -28,7 +29,7 @@ body{
 
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
+	justify-content: center;
 	align-items: center;
 
 	color: var(--primaryColor);
@@ -46,13 +47,16 @@ body{
 }
 .select-model{
 
+	position: absolute;
+	right: 1.5rem;
+
 	font-family: 'JejuMyeongjo';
 	font-style: normal;
 	font-weight: 400;
 	font-size: 30px;
 	line-height: 48px;
 	color: #08EEE0;
-	transtion: var(--mainTransiction);
+	transition: var(--mainTransiction);
 }
 
 
@@ -73,6 +77,7 @@ body{
 	align-items: center;
 	flex-direction: column;
 	background: var(--mainDarkGray);
+	min-width: 950px;
 }
 
 .main-container h3{
@@ -213,9 +218,9 @@ input[type="file"] {
 
 .marker{
 	position: absolute;
-	width: 8rem;
+	width: 7rem;
 	visibility: hidden;
-	top: 4rem;
+	top: 3rem;
 	border-radius: 1rem;
 
 	transition: .2s;
@@ -293,6 +298,7 @@ footer{
 	position: absolute;
 	width: 100%;
 	display: flex;
+	min-width: 950px;
 	align-items: column;
 	justify-content: space-between;
 	align-items: center;
@@ -499,4 +505,10 @@ li+li{
 .close-capture:hover{
 	background-color: #08EEE0;
 	color: #3E3C3C;
+}
+
+.dbl-title{
+	color:#08EEE0;
+	font-size: 2rem;
+	font-family: 'Courier New', Courier, monospace;
 }

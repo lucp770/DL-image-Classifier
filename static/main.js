@@ -338,8 +338,10 @@ infoShow.addEventListener('click', ()=>{
 const body = document.body;
 body.addEventListener('click', (e)=>{
     let target = e.target;
+    console.log(target.parentNode);
 
-    if(target.classList.contains('select-model')){
+    if(target.classList.contains('select-model')|| target.parentNode.classList.contains('info-banner')){
+        console.log('contains null')
         return null;
     }
     else{
