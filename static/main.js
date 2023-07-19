@@ -289,15 +289,22 @@ function showOrHideMenu(){
     let classes = slideMenu.classList;
     // console.log(classes.contains('visible'));
     if(classes.contains('menu-hidden')){
-    
+
         classes.remove('menu-hidden');
 
         // change the logo to up arrow.
         arrowLogo.classList.remove('fa-chevron-down');
         arrowLogo.classList.add('fa-chevron-up')
 
+        let options = Array.from(slideMenu.children);
+        options.forEach(option => option.classList.remove('menu-hidden'));
+
     }
     else if(!classes.contains('menu-hidden')){
+
+        let options = Array.from(slideMenu.children);
+        options.forEach(option => option.classList.add('menu-hidden'));
+
         console.log('event invoqued');
         classes.add('menu-hidden');
         // change the logo to up down.

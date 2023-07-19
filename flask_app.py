@@ -48,57 +48,11 @@ def classifyImage():
 
 	#transform the base64 data into an array
 	img = iio.imread(base64.b64decode(imageData))
-	if model =='Inception v3':
-		result = inception.Apply_Inception_model(img)
-	elif model =='AlexNet':
-		result = inception.Apply_AlexNet_Model(img)
-	elif model =='VGG':
-		result = inception.Apply_VGG_Model(img)
-	elif model=='ResNet':
-		result = inception.Apply_Resnet_Model(img)
-	else: result  = 'none'
+
+	#Apply the model
+	result = inception.Apply_Model(img,model)
 	response = json.dumps(result)
 	return response
-
-
-
-# @app.route("/", methods = ['POST'])
-# def receive_image():
-# 	# manipulate and transform the image in an array.
-# 	# get the data stream from the post request
-# 	image_data = request.get_data()
-
-# 	image_data= iio.imread(image_data)
-# 	# print(image)
-# 	# image_data = Image.open(image_data)
-# 	print(image_data)
-# 	setImage(image_data)
-	
-# 	return "image received"
-
-# @app.route("/model", methods = ['POST'])
-# def processModel():
-# 	data = request.get_json()
-# 	data = data['selected model'];
-# 	# print('\n parsed data : ', json.loads(data))
-# 	setModel(data)
-# 	return "model received"
-
-# @app.route("/classification", methods = ['POST'])
-# def classification():
-# 	model_of_choice = currentModel
-# 	image_to_classify = image
-# 	print('\n \n modelo:',model_of_choice)
-# 	if model_of_choice =='Inception v3':
-# 		result = inception.Apply_model(image_to_classify);
-# 	else: result  = 'none'
-
-# 	print(' \n \n classification done: ', result);
-
-# 	# else: print('nenhum modelo correspondente');
-# 	# insert here the classification algorithm
-
-# 	return result
 
 if __name__ =="__main__":
 	app.run(debug=True)

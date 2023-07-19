@@ -38,12 +38,23 @@ def get_labels(file):
 	return categories
 
 
-def Apply_Inception_model(processed_image):
+def Apply_Model(processed_image, model_to_use):
+
+	if model_to_use=='Inception v3':
+		model = torch.hub.load('pytorch/vision:v0.10.0', 'inception_v3', weights='Inception_V3_Weights.DEFAULT')
+	elif model_to_use=='AlexNet':
+		model = torch.hub.load('pytorch/vision:v0.10.0', 'alexnet', weights='AlexNet_Weights.IMAGENET1K_V1')
+	elif model_to_use=='VGG':
+		model = torch.hub.load('pytorch/vision:v0.10.0', 'vgg11', weights='VGG11_Weights.DEFAULT')
+	elif model_to_use=='ResNet':
+		model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet18', weights='ResNet18_Weights.DEFAULT')
+	elif model_to_use=='SqueezeNet':
+		model = torch.hub.load('pytorch/vision:v0.10.0', 'squeezenet1_0', weights='SqueezeNet1_0_Weights.DEFAULT')
+	elif model_to_use=='DenseNet':
+		model = torch.hub.load('pytorch/vision:v0.10.0', 'densenet121', weights='DenseNet121_Weights.DEFAULT')
+	model.eval()
 
 	PIL_image = Image.fromarray(processed_image)
-
-	model = torch.hub.load('pytorch/vision:v0.10.0', 'inception_v3', weights='Inception_V3_Weights.DEFAULT')
-	model.eval()
 
 	if len(PIL_image.getbands())  == 3:
 		input_tensor = RGB_processor(PIL_image)
@@ -79,130 +90,6 @@ def Apply_Inception_model(processed_image):
 	data_package = json.dumps(data_package)
 
 	return data_package
-
-
-def Apply_AlexNet_Model(processed_image):
-
-	PIL_image = Image.fromarray(processed_image)
-
-	model = torch.hub.load('pytorch/vision:v0.10.0', 'alexnet', weights='AlexNet_Weights.IMAGENET1K_V1')
-	model.eval()
-
-	if len(PIL_image.getbands())  == 3:
-		input_tensor = RGB_processor(PIL_image)
-	elif len(PIL_image.getbands()) == 4:
-		input_tensor = RGBA_processor(PIL_image)
-	else: print(' \n \n ERROR! : image type is not recognized \n ')
-
-	input_batch = input_tensor.unsqueeze(0) # create a mini-batch as expected by the model
-
-	# check if cuda is available
-	if torch.cuda.is_available():
-		# if it is, send the data and the model to the gpu
-		input_tensor.to('cuda')
-		model.to('cuda')
-
-	with torch.no_grad():
-		output = model(input_batch)
-
-	output = output[0]#remove just the first element of the batch
-	probabilities = torch.nn.functional.softmax(output, dim=0)#get the probabilities
-
-	# Show top categories per image
-	top5_prob, top5_idx = torch.topk(probabilities, 5)
-
-	categories = get_labels('./src/labels/labels_imagenet')
-
-	top5_categories = [categories[idx] for idx in top5_idx]
-	top5_prob = (top5_prob*100).tolist()
-
-	data_package  = {"categories" : top5_categories, "probabilities": top5_prob}
-
-	# top5_categories = json.dumps(top5_categories)#transform to json
-	data_package = json.dumps(data_package)
-
-	return data_package
-
-def Apply_VGG_Model(processed_image):
-	PIL_image = Image.fromarray(processed_image)
-	model = torch.hub.load('pytorch/vision:v0.10.0', 'vgg11', weights='VGG11_Weights.DEFAULT')
-	model.eval()
-
-	if len(PIL_image.getbands())  == 3:
-		input_tensor = RGB_processor(PIL_image)
-	elif len(PIL_image.getbands()) == 4:
-		input_tensor = RGBA_processor(PIL_image)
-	else: print(' \n \n ERROR! : image type is not recognized \n ')
-
-	input_batch = input_tensor.unsqueeze(0) # create a mini-batch as expected by the model
-
-	# check if cuda is available
-	if torch.cuda.is_available():
-		# if it is, send the data and the model to the gpu
-		input_tensor.to('cuda')
-		model.to('cuda')
-
-	with torch.no_grad():
-		output = model(input_batch)
-
-	output = output[0]#remove just the first element of the batch
-	probabilities = torch.nn.functional.softmax(output, dim=0)#get the probabilities
-
-	# Show top categories per image
-	top5_prob, top5_idx = torch.topk(probabilities, 5)
-
-	categories = get_labels('./src/labels/labels_imagenet')
-
-	top5_categories = [categories[idx] for idx in top5_idx]
-	top5_prob = (top5_prob*100).tolist()
-
-	data_package  = {"categories" : top5_categories, "probabilities": top5_prob}
-
-	# top5_categories = json.dumps(top5_categories)#transform to json
-	data_package = json.dumps(data_package)
-
-	return data_package
-
-def Apply_Resnet_Model(processed_image):
-	PIL_image = Image.fromarray(processed_image)
-	model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet18', weights='ResNet18_Weights.DEFAULT')
-	model.eval()
-
-	if len(PIL_image.getbands())  == 3:
-		input_tensor = RGB_processor(PIL_image)
-	elif len(PIL_image.getbands()) == 4:
-		input_tensor = RGBA_processor(PIL_image)
-	else: print(' \n \n ERROR! : image type is not recognized \n ')
-
-	input_batch = input_tensor.unsqueeze(0) # create a mini-batch as expected by the model
-
-	# check if cuda is available
-	if torch.cuda.is_available():
-		# if it is, send the data and the model to the gpu
-		input_tensor.to('cuda')
-		model.to('cuda')
-
-	with torch.no_grad():
-		output = model(input_batch)
-
-	output = output[0]#remove just the first element of the batch
-	probabilities = torch.nn.functional.softmax(output, dim=0)#get the probabilities
-
-	# Show top categories per image
-	top5_prob, top5_idx = torch.topk(probabilities, 5)
-
-	categories = get_labels('./src/labels/labels_imagenet')
-
-	top5_categories = [categories[idx] for idx in top5_idx]
-	top5_prob = (top5_prob*100).tolist()
-
-	data_package  = {"categories" : top5_categories, "probabilities": top5_prob}
-
-	# top5_categories = json.dumps(top5_categories)#transform to json
-	data_package = json.dumps(data_package)
-
-	return data_package
-
 
 if __name__  == '__main__':
 	import torch
