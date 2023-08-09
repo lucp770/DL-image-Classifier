@@ -1,15 +1,26 @@
 # DL Image classifier
 
-This is a web application built in flask. The backend uses Pythorch's pretrained models to classify images inputed by the user. The user can choice an image (by using the camera or the filesystem) and one of the available models.
+This is a web application built in flask. The backend uses Pythorch's pretrained models to classify images inputted by the user. The user can choose an image (by using the camera or the filesystem) and one of the available models.
 
 
+![initial screen](preview/preview1.png "initial screen")
+
+Select a model to be used and an image.
+
+![model selection](preview/preview2.png "Model selection")
+
+get the top 5 predictions
+
+![Model Prediction](preview/preview3.png "model prediction")
+
+ps: depending on the web browser, the camera capture may not be available.
 
 
-# Running the application#
+# Running the application
 
-To run the application. Install the necessary dependencies.
+To run the application. Go to the directory that contains this project. Install the necessary dependencies.
 
-`pip install requirements.txt`
+`pip install -r requirements.txt`
 
 execute the server:
 
@@ -17,7 +28,8 @@ execute the server:
 
 Go to http://localhost:5000 and have fun with some AI models.
 
-![initial screen](preview/preview1.png "initial screen")
+
+
 
 
 
